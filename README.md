@@ -6,6 +6,9 @@ This project is a machine learning-powered web application that detects and clas
 - Physical damage
 - Electrical damage
 
+<img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
+<img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
+
 This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
 
 ## Features
@@ -110,7 +113,7 @@ This project can be adapted for various energy infrastructure monitoring applica
 
 ### Creating Your Own Model
 1. **Prepare Your Dataset**
-   - Collect ~50+ images per category
+   - Collect ~50+ images per category. You could find a dataset through a website like Kaggle or create your own dataset.
    - Ensure diverse conditions (lighting, angles, distances)
    - Include both positive and negative examples
    - Label your images consistently
@@ -119,14 +122,21 @@ This project can be adapted for various energy infrastructure monitoring applica
    - Visit [Teachable Machine](https://teachablemachine.withgoogle.com/)
    - Create a new Image Project
    - Upload your images for each class and name each class
+
+<img width="1418" alt="Screen Shot 2025-01-10 at 8 16 43 PM" src="https://github.com/user-attachments/assets/8f467d39-5507-4923-b2c7-75a74ee81a52" />
+
    - Set training parameters:
      ```
      Epochs: 50 (adjust based on performance)
      Batch Size: 16
      Learning Rate: 0.001
      ```
+<img width="1420" alt="Screen Shot 2025-01-10 at 8 31 25 PM" src="https://github.com/user-attachments/assets/5318919e-b5ad-454c-9732-bbdaabd654ab" />
+
    - Train the model
    - Export as TensorFlow Lite
+
+<img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
 
 3. **Modify the Code**
    - Update `labels.txt` with your categories:
