@@ -134,6 +134,7 @@ This project can be adapted for various energy infrastructure monitoring applica
 <img width="1420" alt="Screen Shot 2025-01-10 at 8 31 25 PM" src="https://github.com/user-attachments/assets/5318919e-b5ad-454c-9732-bbdaabd654ab" />
 
    - Train the model
+   - Test it with other images
    - Export as TensorFlow Lite
 
 <img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
