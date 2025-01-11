@@ -1,12 +1,22 @@
 # Solar Panel Fault Detection System with Machine Learning (Image Classification / Computer Vision)
 
 ## Overview
-This project is a machine learning-powered web application that detects and classifies faults in solar panels using computer vision. The system can analyze both single images and batch process multiple images to identify three conditions:
+This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and computer vision can be applied to real-world energy infrastructure monitoring.
+
+The system is a machine learning-powered web application that detects and classifies faults in solar panels using computer vision. It can analyze both single images and batch process multiple images to identify three conditions:
 - Clean panels
 - Physical damage
 - Electrical damage
 
 https://solarpanelfaultdetection.streamlit.app
+
+This implementation shows students how to:
+- Train a custom image classification model using Google Teachable Machine
+- Deploy a machine learning model in a user-friendly web interface
+- Process both single and batch images for real-world applications
+- Handle multiple classification categories with confidence scoring
+
+This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
 
 <img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
 <img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
