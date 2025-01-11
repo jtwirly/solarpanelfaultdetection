@@ -105,6 +105,99 @@ The current model achieves:
 - Geographic mapping of panel conditions
 - Mobile app development
 
+## Customizing the Project
+This project can be adapted for various energy infrastructure monitoring applications. Check `otherideas.txt` for a comprehensive list of potential adaptations.
+
+### Creating Your Own Model
+1. **Prepare Your Dataset**
+   - Collect ~50+ images per category
+   - Ensure diverse conditions (lighting, angles, distances)
+   - Include both positive and negative examples
+   - Label your images consistently
+
+2. **Train Using Google Teachable Machine**
+   - Visit [Teachable Machine](https://teachablemachine.withgoogle.com/)
+   - Create a new Image Project
+   - Upload your images for each class and name each class
+   - Set training parameters:
+     ```
+     Epochs: 50 (adjust based on performance)
+     Batch Size: 16
+     Learning Rate: 0.001
+     ```
+   - Train the model
+   - Export as TensorFlow Lite
+
+3. **Modify the Code**
+   - Update `labels.txt` with your categories:
+     ```
+     0 YourClass1
+     1 YourClass2
+     2 YourClass3
+     ```
+   - Rename your model to `converted_model.tflite`
+   - Adjust the display messages in `app.py`:
+     ```python
+     def format_condition(condition):
+         """Format condition text for display"""
+         if condition == "YourClass1":
+             return "Your Display Text 1"
+         elif condition == "YourClass2":
+             return "Your Display Text 2"
+         return condition
+     ```
+
+4. **Customize the Interface**
+   - Modify the code in app.py (you can use Claude or ChatGPT to help if desired)
+   - Modify the title and descriptions
+   - Adjust confidence thresholds if needed
+   - Add custom metrics relevant to your use case
+   - Update the results display format
+
+### Best Practices for Adaptation
+1. **Data Collection**
+   - Use real-world examples
+   - Include various environmental conditions
+   - Consider seasonal variations
+   - Document image sources and conditions
+
+2. **Model Training**
+   - Start with default parameters
+   - Experiment with learning rates
+   - Monitor for overfitting
+   - Validate with test images
+
+3. **Testing & Validation**
+   - Use a separate test dataset
+   - Verify performance across all categories
+   - Test edge cases
+   - Document accuracy metrics
+
+4. **Deployment Considerations**
+   - Update requirements.txt if needed
+   - Test thoroughly before deployment
+   - Consider scalability
+   - Document any special requirements
+
+### Example Adaptation (Wind Turbine)
+```python
+# Example labels.txt for wind turbine inspection
+0 Normal
+1 BladeDamage
+2 IceAccumulation
+3 Corrosion
+
+# Example condition formatting
+def format_condition(condition):
+    conditions = {
+        "Normal": "✅ Normal Operation",
+        "BladeDamage": "🚨 Blade Damage Detected",
+        "IceAccumulation": "❄️ Ice Accumulation",
+        "Corrosion": "⚠️ Corrosion Detected"
+    }
+    return conditions.get(condition, condition)
+```
+
 ## Contributing
 Contributions are welcome! Please feel free to submit a Pull Request.
 
