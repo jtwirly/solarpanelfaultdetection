@@ -1,7 +1,6 @@
-tensorflow==2.13.0
+tensorflow-cpu==2.18.0
 streamlit
 pillow
 numpy
 python-dotenv
-openai
 pandas
