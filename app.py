@@ -42,6 +42,14 @@ def predict(interpreter, image_data):
     
     return interpreter.get_tensor(output_details[0]['index'])[0]
 
+def format_condition(condition):
+    """Format the condition text for display"""
+    if condition == "Physical":
+        return "Physical Damage"
+    elif condition == "Electrical":
+        return "Electrical Damage"
+    return condition
+
 def main():
     st.title("Solar Panel Fault Detection")
     
@@ -76,14 +84,15 @@ def main():
                             class_index = np.argmax(predictions)
                             confidence = predictions[class_index]
                             condition = labels[class_index].split(' ')[1]  # Get condition after the number
+                            condition_display = format_condition(condition)
                             
                             # Display results with appropriate styling
                             if condition == "Clean":
-                                st.success("✅ Panel Status: Clean")
+                                st.success(f"✅ Panel Status: {condition_display}")
                             elif condition == "Physical":
-                                st.warning("⚠️ Panel Status: Physical Damage")
+                                st.warning(f"⚠️ Panel Status: {condition_display}")
                             else:
-                                st.error("🚨 Panel Status: Electrical Damage")
+                                st.error(f"🚨 Panel Status: {condition_display}")
                             
                             # Show confidence score
                             st.metric("Confidence", f"{confidence * 100:.1f}%")
@@ -92,7 +101,8 @@ def main():
                             st.subheader("Detailed Analysis")
                             for idx, score in enumerate(predictions):
                                 label = labels[idx].split(' ')[1]  # Get condition after the number
-                                st.write(f"{label}: {score * 100:.1f}%")
+                                label_display = format_condition(label)
+                                st.write(f"{label_display}: {score * 100:.1f}%")
                                 st.progress(float(score))
         
         with tab2:
@@ -119,10 +129,11 @@ def main():
                             class_index = np.argmax(predictions)
                             confidence = predictions[class_index]
                             condition = labels[class_index].split(' ')[1]
+                            condition_display = format_condition(condition)
                             
                             results.append({
                                 'Image': file.name,
-                                'Condition': condition,
+                                'Condition': condition_display,
                                 'Confidence': f"{confidence:.1%}"
                             })
                             
@@ -142,7 +153,7 @@ def main():
                     
                     col1, col2, col3 = st.columns(3)
                     total = len(df)
-                    problems = len(df[df['Condition'].isin(['Physical', 'Electrical'])])
+                    problems = len(df[df['Condition'].isin(['Physical Damage', 'Electrical Damage'])])
                     
                     col1.metric("Total Panels", total)
                     col2.metric("Issues Found", problems)
