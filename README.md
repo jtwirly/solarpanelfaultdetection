@@ -1,4 +1,4 @@
-# Solar Panel Fault Detection System
+# Solar Panel Fault Detection System with Machine Learning (Image Classification / Computer Vision)
 
 ## Overview
 This project is a machine learning-powered web application that detects and classifies faults in solar panels using computer vision. The system can analyze both single images and batch process multiple images to identify three conditions:
