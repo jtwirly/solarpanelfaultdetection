@@ -1,6 +1,7 @@
-tensorflow-cpu
-numpy
-pillow
+tensorflow==2.13.0
 streamlit
-openai
+pillow
+numpy
 python-dotenv
+openai
+pandas
