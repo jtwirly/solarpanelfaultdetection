@@ -63,7 +63,7 @@ streamlit run app.py
 
 4. Click "Deploy"
 
-Your app will be available at: https://[your-username]-solarpanelfaultdetection-streamlit-app.streamlit.app
+Your app will be available at: https://[your-username]-solarpanelfaultdetection-streamlit-app.streamlit.app or whatever you choose to set the URL as.
 
 Note: The repository already includes:
 - `converted_model.tflite` (TensorFlow Lite model)
