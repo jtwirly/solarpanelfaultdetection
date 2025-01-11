@@ -6,7 +6,10 @@ This project is a machine learning-powered web application that detects and clas
 - Physical damage
 - Electrical damage
 
+https://solarpanelfaultdetection.streamlit.app
+
 <img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
+<img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
 <img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
 
 This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
