@@ -1,127 +1,129 @@
+# app.py
 import streamlit as st
+import tensorflow as tf
 import numpy as np
 from PIL import Image, ImageOps
-import os
-from datetime import datetime
-import tensorflow as tf
+import pandas as pd
 
-def load_and_prep_image(img):
-    """Prepare image for the model"""
-    # Convert to RGB if not already
-    img = img.convert("RGB")
-    
-    # Resize and preprocess
+# Set page config first
+st.set_page_config(layout='wide', page_title="Solar Panel Fault Detection")
+
+def load_model():
+    """Load the TFLite model"""
+    interpreter = tf.lite.Interpreter(model_path="converted_model.tflite")
+    interpreter.allocate_tensors()
+    return interpreter
+
+def process_image(image):
+    """Process image to match Teachable Machine's requirements"""
+    # Resize the image to match what Teachable Machine expects
     size = (224, 224)
-    img = ImageOps.fit(img, size, Image.Resampling.LANCZOS)
-    img_array = np.asarray(img)
+    image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
+    
+    # Convert image to numpy array
+    image_array = np.asarray(image)
     
     # Normalize the image
-    normalized_img = (img_array.astype(np.float32) / 127.5) - 1
+    normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
     
-    # Add batch dimension
-    return np.expand_dims(normalized_img, axis=0)
+    # Create the array of the right shape
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    data[0] = normalized_image_array
+    
+    return data
 
-def get_condition_message(condition):
-    """Get message and color based on condition"""
-    if condition == "Clean":
-        return "✅ Panel is clean and functioning normally", "success"
-    elif condition == "Physical Damage":
-        return "⚠️ Physical damage detected - Maintenance required", "warning"
-    else:  # Electrical Damage
-        return "🚨 Electrical damage detected - Immediate attention needed", "error"
+def predict(interpreter, image_data):
+    """Run prediction on processed image data"""
+    input_details = interpreter.get_input_details()
+    output_details = interpreter.get_output_details()
+    
+    interpreter.set_tensor(input_details[0]['index'], image_data)
+    interpreter.invoke()
+    
+    return interpreter.get_tensor(output_details[0]['index'])[0]
 
 def main():
-    st.set_page_config(layout='wide', page_title="Solar Panel Fault Detection")
+    st.title("Solar Panel Fault Detection")
     
-    st.title("Solar Panel Fault Detection System")
-    
-    # Analysis mode selection
-    analysis_mode = st.radio("Choose Analysis Mode:", ["Single Image", "Multiple Images"])
-
     try:
-        interpreter = tf.lite.Interpreter(model_path="keras_model.tflite")
-        interpreter.allocate_tensors()
-        
-        # Get input and output details
-        input_details = interpreter.get_input_details()
-        output_details = interpreter.get_output_details()
-        
-        # Load labels
+        # Load model and labels
+        interpreter = load_model()
         with open("labels.txt", "r") as f:
-            labels = f.read().splitlines()
+            labels = [line.strip() for line in f.readlines()]
         
-        if analysis_mode == "Single Image":
+        # Create tabs for different modes
+        tab1, tab2 = st.tabs(["Single Image Analysis", "Batch Analysis"])
+        
+        with tab1:
             uploaded_file = st.file_uploader("Upload a solar panel image", type=['jpg', 'png', 'jpeg'])
             
-            if uploaded_file is not None:
-                # Display image and analyze
+            if uploaded_file:
+                # Display image and analysis side by side
                 col1, col2 = st.columns(2)
                 
                 with col1:
-                    image = Image.open(uploaded_file)
+                    image = Image.open(uploaded_file).convert('RGB')
                     st.image(image, caption="Uploaded Image", use_container_width=True)
                 
-                if st.button("Analyze Panel"):
-                    with col2:
-                        with st.spinner("Analyzing panel condition..."):
-                            # Prepare image
-                            processed_img = load_and_prep_image(image)
+                with col2:
+                    if st.button("Analyze Image"):
+                        with st.spinner("Analyzing..."):
+                            # Process and predict
+                            processed_image = process_image(image)
+                            predictions = predict(interpreter, processed_image)
                             
-                            # Set tensor and run inference
-                            interpreter.set_tensor(input_details[0]['index'], processed_img)
-                            interpreter.invoke()
+                            # Get the results
+                            class_index = np.argmax(predictions)
+                            confidence = predictions[class_index]
+                            condition = labels[class_index].split(' ')[1]  # Get condition after the number
                             
-                            # Get results
-                            output_data = interpreter.get_tensor(output_details[0]['index'])
-                            prediction_idx = np.argmax(output_data)
-                            confidence = output_data[0][prediction_idx]
+                            # Display results with appropriate styling
+                            if condition == "Clean":
+                                st.success("✅ Panel Status: Clean")
+                            elif condition == "Physical":
+                                st.warning("⚠️ Panel Status: Physical Damage")
+                            else:
+                                st.error("🚨 Panel Status: Electrical Damage")
                             
-                            # Get predicted condition
-                            condition = labels[prediction_idx].split(' ')[1].strip()
-                            message, status_type = get_condition_message(condition)
+                            # Show confidence score
+                            st.metric("Confidence", f"{confidence * 100:.1f}%")
                             
-                            # Display results
-                            getattr(st, status_type)(message)
-                            st.metric("Confidence Score", f"{confidence * 100:.1f}%")
-                            
-                            # Additional details
-                            st.subheader("Analysis Details")
-                            st.write(f"Detected Condition: {condition}")
-                            st.progress(float(confidence))
+                            # Show confidence bars for all classes
+                            st.subheader("Detailed Analysis")
+                            for idx, score in enumerate(predictions):
+                                label = labels[idx].split(' ')[1]  # Get condition after the number
+                                st.write(f"{label}: {score * 100:.1f}%")
+                                st.progress(float(score))
         
-        else:  # Multiple Images
-            uploaded_files = st.file_uploader("Upload multiple solar panel images", 
-                                            type=['jpg', 'png', 'jpeg'], 
+        with tab2:
+            uploaded_files = st.file_uploader("Upload multiple images", 
+                                            type=['jpg', 'png', 'jpeg'],
                                             accept_multiple_files=True)
             
             if uploaded_files:
-                if st.button("Analyze All Panels"):
+                if st.button("Analyze All Images"):
                     results = []
-                    progress_bar = st.progress(0)
-                    status_text = st.empty()
+                    progress = st.progress(0)
+                    status = st.empty()
                     
                     for idx, file in enumerate(uploaded_files):
-                        status_text.text(f"Processing image {idx + 1} of {len(uploaded_files)}")
+                        status.text(f"Processing image {idx + 1} of {len(uploaded_files)}")
                         
                         try:
                             # Process image
-                            image = Image.open(file)
-                            processed_img = load_and_prep_image(image)
+                            image = Image.open(file).convert('RGB')
+                            processed_image = process_image(image)
+                            predictions = predict(interpreter, processed_image)
                             
-                            # Run inference
-                            interpreter.set_tensor(input_details[0]['index'], processed_img)
-                            interpreter.invoke()
-                            
-                            # Get results
-                            output_data = interpreter.get_tensor(output_details[0]['index'])
-                            prediction_idx = np.argmax(output_data)
-                            confidence = output_data[0][prediction_idx]
-                            condition = labels[prediction_idx].split(' ')[1].strip()
+                            # Get prediction
+                            class_index = np.argmax(predictions)
+                            confidence = predictions[class_index]
+                            condition = labels[class_index].split(' ')[1]
                             
                             results.append({
                                 'Image': file.name,
                                 'Condition': condition,
-                                'Confidence': f"{confidence:.2%}"
+                                'Confidence': f"{confidence:.1%}"
                             })
                             
                         except Exception as e:
@@ -131,36 +133,39 @@ def main():
                                 'Confidence': str(e)
                             })
                         
-                        progress_bar.progress((idx + 1) / len(uploaded_files))
+                        progress.progress((idx + 1) / len(uploaded_files))
                     
-                    status_text.text("Analysis Complete!")
+                    status.text("Analysis Complete!")
                     
-                    # Display results
-                    import pandas as pd
+                    # Show summary
                     df = pd.DataFrame(results)
                     
                     col1, col2, col3 = st.columns(3)
-                    total_panels = len(df)
-                    problem_panels = len(df[df['Condition'].isin(['Physical Damage', 'Electrical Damage'])])
+                    total = len(df)
+                    problems = len(df[df['Condition'].isin(['Physical', 'Electrical'])])
                     
-                    col1.metric("Total Panels", total_panels)
-                    col2.metric("Panels Needing Attention", problem_panels)
-                    col3.metric("Clean Panels", total_panels - problem_panels)
+                    col1.metric("Total Panels", total)
+                    col2.metric("Issues Found", problems)
+                    col3.metric("Clean Panels", total - problems)
                     
-                    st.dataframe(df)
+                    # Show detailed results
+                    st.subheader("Detailed Results")
+                    st.dataframe(df, use_container_width=True)
                     
-                    # Download results
+                    # Download option
                     csv = df.to_csv(index=False)
                     st.download_button(
-                        "Download Results CSV",
+                        "Download Results (CSV)",
                         csv,
                         "solar_panel_analysis.csv",
                         "text/csv"
                     )
-                    
+    
+    except FileNotFoundError:
+        st.error("Model or labels file not found!")
+        st.info("Please ensure 'converted_model.tflite' and 'labels.txt' are in the app directory")
     except Exception as e:
-        st.error(f"Error loading model or labels: {str(e)}")
-        st.info("Please ensure 'keras_model.tflite' and 'labels.txt' are present in the app directory.")
+        st.error(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
     main()
