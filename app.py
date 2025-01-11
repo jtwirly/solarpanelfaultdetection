@@ -1,127 +1,144 @@
-from keras.models import load_model  # TensorFlow is required for Keras to work
-from PIL import Image, ImageOps  # Install pillow instead of PIL
+from keras.models import load_model
+from PIL import Image, ImageOps
 import numpy as np
 import streamlit as st 
 from dotenv import load_dotenv 
 import os
 import openai
+from datetime import datetime
+import pandas as pd
 
 load_dotenv()
-
 openai.api_key = os.getenv('OPENAI_API_KEY')
 
-def classify_waste(img):
-    # Disable scientific notation for clarity
+def classify_solar_panel(img):
+    """Classify a single solar panel image using the Teachable Machine model."""
     np.set_printoptions(suppress=True)
-
-    # Load the model
     model = load_model("keras_model.h5", compile=False)
-
-    # Load the labels
     class_names = open("labels.txt", "r").readlines()
-
-    # Create the array of the right shape to feed into the keras model
-    # The 'length' or number of images you can put into the array is
-    # determined by the first position in the shape tuple, in this case 1
-    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
     
-    # Replace this with the path to your image
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
     image = img.convert("RGB")
-
-    # resizing the image to be at least 224x224 and then cropping from the center
     size = (224, 224)
     image = ImageOps.fit(image, size, Image.Resampling.LANCZOS)
-
-    # turn the image into a numpy array
     image_array = np.asarray(image)
-
-    # Normalize the image
     normalized_image_array = (image_array.astype(np.float32) / 127.5) - 1
-
-    # Load the image into the array
     data[0] = normalized_image_array
 
-    # Predicts the model
     prediction = model.predict(data)
     index = np.argmax(prediction)
     class_name = class_names[index]
     confidence_score = prediction[0][index]
 
-    # Print prediction and confidence score
-    #print("Class:", class_name[2:], end="")
-    #print("Confidence Score:", confidence_score)
-
     return class_name, confidence_score
 
-def generate_carbon_footprint_info(label):
-    label = label.split(' ')[1]
-    print(label)
+def generate_analysis(label):
+    """Generate maintenance recommendations based on the condition."""
+    condition = label.split(' ')[1].strip()
     response = openai.Completion.create(
-    model="text-davinci-003",
-    prompt="What is the approximate Carbon emission or carbon footprint generated from "+label+"? I just need an approximate number to create awareness. Elaborate in 100 words.\n",
-    temperature=0.7,
-    max_tokens=600,
-    top_p=1,
-    frequency_penalty=0,
-    presence_penalty=0
+        model="text-davinci-003",
+        prompt=f"Provide maintenance recommendations for a solar panel showing {condition} condition. Include potential causes and suggested actions.\n",
+        temperature=0.7,
+        max_tokens=200
     )
     return response['choices'][0]['text']
 
-
 st.set_page_config(layout='wide')
+st.title("Solar Panel Fault Detection System")
 
-st.title("Waste Classifier Sustainability App")
+# Add option to choose between single and batch upload
+analysis_mode = st.radio("Choose Analysis Mode:", ["Single Image", "Multiple Images"])
 
-input_img = st.file_uploader("Enter your image", type=['jpg', 'png', 'jpeg'])
+if analysis_mode == "Single Image":
+    # Original single image analysis
+    input_img = st.file_uploader("Upload a solar panel image", type=['jpg', 'png', 'jpeg'], key="single")
+    
+    if input_img:
+        if st.button("Analyze Panel"):
+            col1, col2 = st.columns([1, 1])
+            
+            with col1:
+                st.image(input_img, caption="Uploaded Image", use_column_width=True)
+            
+            with col2:
+                with st.spinner("Analyzing panel condition..."):
+                    image_file = Image.open(input_img)
+                    label, confidence_score = classify_solar_panel(image_file)
+                    condition = label.split(' ')[1].strip()
+                    
+                    if condition == "Clean":
+                        st.success(f"Panel Status: CLEAN (Confidence: {confidence_score:.2%})")
+                    elif condition == "Physical Damage":
+                        st.warning(f"Panel Status: PHYSICAL DAMAGE (Confidence: {confidence_score:.2%})")
+                    else:  # Electrical Damage
+                        st.error(f"Panel Status: ELECTRICAL DAMAGE (Confidence: {confidence_score:.2%})")
+                    
+                    analysis = generate_analysis(label)
+                    st.subheader("Recommendations:")
+                    st.write(analysis)
 
-if input_img is not None:
-    if st.button("Classify"):
-        
-        col1, col2, col3 = st.columns([1,1,1])
-
-        with col1:
-            st.info("Your uploaded Image")
-            st.image(input_img, use_column_width=True)
-
-        with col2:
-            st.info("Your Result")
-            image_file = Image.open(input_img)
-            label, confidence_score = classify_waste(image_file)
-            col4, col5 = st.columns([1,1])
-            if label == "0 cardboard\n":
-                st.success("The image is classified as CARDBOARD.")                
-                with col4:
-                    st.image("sdg goals/12.png", use_column_width=True)
-                    st.image("sdg goals/13.png", use_column_width=True)
-                with col5:
-                    st.image("sdg goals/14.png", use_column_width=True)
-                    st.image("sdg goals/15.png", use_column_width=True) 
-            elif label == "1 plastic\n":
-                st.success("The image is classified as PLASTIC.")
-                with col4:
-                    st.image("sdg goals/6.jpg", use_column_width=True)
-                    st.image("sdg goals/12.png", use_column_width=True)
-                with col5:
-                    st.image("sdg goals/14.png", use_column_width=True)
-                    st.image("sdg goals/15.png", use_column_width=True) 
-            elif label == "2 glass\n":
-                st.success("The image is classified as GLASS.")
-                with col4:
-                    st.image("sdg goals/12.png", use_column_width=True)
-                with col5:
-                    st.image("sdg goals/14.png", use_column_width=True)
-            elif label == "3 metal\n":
-                st.success("The image is classified as METAL.")
-                with col4:
-                    st.image("sdg goals/3.png", use_column_width=True)
-                    st.image("sdg goals/6.jpg", use_column_width=True)
-                with col5:
-                    st.image("sdg goals/12.png", use_column_width=True)
-                    st.image("sdg goals/14.png", use_column_width=True) 
-            else:
-                st.error("The image is not classified as any relevant class.")
-
-        with col3:
-            result = generate_carbon_footprint_info(label)
-            st.success(result)
-
+else:
+    # Batch image analysis
+    uploaded_files = st.file_uploader("Upload multiple solar panel images", 
+                                    type=['jpg', 'png', 'jpeg'], 
+                                    accept_multiple_files=True,
+                                    key="multiple")
+    
+    if uploaded_files:
+        if st.button("Analyze All Panels"):
+            results = []
+            
+            # Progress bar for batch processing
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            for idx, uploaded_file in enumerate(uploaded_files):
+                status_text.text(f"Processing image {idx + 1} of {len(uploaded_files)}")
+                
+                try:
+                    image = Image.open(uploaded_file)
+                    label, confidence = classify_solar_panel(image)
+                    condition = label.split(' ')[1].strip()
+                    
+                    results.append({
+                        'Image': uploaded_file.name,
+                        'Condition': condition,
+                        'Confidence': f"{confidence:.2%}"
+                    })
+                except Exception as e:
+                    results.append({
+                        'Image': uploaded_file.name,
+                        'Condition': 'Error',
+                        'Confidence': str(e)
+                    })
+                
+                progress_bar.progress((idx + 1) / len(uploaded_files))
+            
+            status_text.text("Analysis Complete!")
+            
+            # Display results
+            df = pd.DataFrame(results)
+            
+            # Summary statistics
+            st.subheader("Summary")
+            col1, col2, col3 = st.columns(3)
+            total_panels = len(df)
+            problem_panels = len(df[df['Condition'].isin(['Physical Damage', 'Electrical Damage'])])
+            
+            col1.metric("Total Panels", total_panels)
+            col2.metric("Panels Needing Attention", problem_panels)
+            col3.metric("Clean Panels", total_panels - problem_panels)
+            
+            # Detailed results
+            st.subheader("Detailed Results")
+            st.dataframe(df)
+            
+            # Download results
+            csv = df.to_csv(index=False)
+            st.download_button(
+                "Download Results CSV",
+                csv,
+                "solar_panel_analysis.csv",
+                "text/csv",
+                key='download-csv'
+            )
