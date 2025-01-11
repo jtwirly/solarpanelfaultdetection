@@ -1,9 +1,9 @@
-# Solar Panel Fault Detection System with Machine Learning (Image Classification / Computer Vision)
+# Solar Panel Fault Detection with Machine Learning (Image Classification)
 
 ## Overview
-This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and computer vision can be applied to real-world energy infrastructure monitoring.
+This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and image classification can be applied to real-world energy infrastructure monitoring.
 
-The system is a machine learning-powered web application that detects and classifies faults in solar panels using computer vision. It can analyze both single images and batch process multiple images to identify three conditions:
+The system is a machine learning-powered web application that detects and classifies faults in solar panels using transfer learning and image classification. It can analyze both single images and batch process multiple images to identify three conditions:
 - Clean panels
 - Physical damage
 - Electrical damage
@@ -22,15 +22,13 @@ This project was partly inspired by [AIAnytime's Waste Classifier project](https
 <img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
 <img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
 
-This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
-
 ## Features
 - Single image analysis with detailed confidence scores
 - Batch processing capability for multiple panels
 - Real-time analysis with progress tracking
 - Downloadable results in CSV format
 - User-friendly interface built with Streamlit
-- High accuracy fault detection using TensorFlow Lite
+- High accuracy classification using TensorFlow Lite
 
 ## Tech Stack
 - Python
@@ -46,7 +44,7 @@ The model was trained using Google Teachable Machine with:
 - 50+ images for each condition
 - Three classification categories
 - Image augmentation for better generalization
-- Transfer learning on a MobileNet architecture
+- Transfer learning using MobileNet architecture
 
 ## Setup and Installation
 
@@ -110,7 +108,7 @@ No additional configuration is needed for deployment.
 ## Model Performance
 The current model achieves:
 - High confidence scores for clean panels (typically >90%)
-- Accurate detection of physical damage patterns
+- Accurate classification of physical damage patterns
 - Reliable identification of electrical faults
 - Fast inference time suitable for real-time analysis
 
