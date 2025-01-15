@@ -91,7 +91,7 @@ OR
    - Congratulations, you have created an image classification machine learning model project! 
 <img width="879" alt="Screen Shot 2025-01-15 at 9 42 50 AM" src="https://github.com/user-attachments/assets/c66fa4ac-675c-4528-8ad1-7a9ebfa5d39a" />
 
-Follow the instructions in the repository below to:
+Optional: Follow the instructions in the repository below to:
 - Build a Python-based app using Streamlit.
 - Customize features for advanced use cases.
 
