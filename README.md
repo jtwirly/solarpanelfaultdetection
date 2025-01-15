@@ -1,6 +1,109 @@
 # Solar Panel Fault Detection with Machine Learning (Image Classification)
 
 ## Overview
+This project is an example from the **AI for Energy Solutions** course at MIT's Independent Activities Period (IAP) that I am teaching. It showcases how **machine learning** and **image classification** can be applied to energy infrastructure monitoring. 
+
+The system is a web application that detects and classifies faults in solar panels, capable of analyzing:
+- **Clean panels**
+- **Physical damage**
+- **Electrical damage**
+
+The project is designed to be accessible, beginning with a **no-code approach** using Google Teachable Machine, and optionally extending to **coding and deployment** for students looking to delve deeper into development.
+
+<img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
+<img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
+<img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
+
+---
+
+## Project Highlights
+
+### Beginner-Friendly: No-Code Model Training
+- **Google Teachable Machine** makes training an image classification model simple and intuitive. 
+- No prior coding knowledge is required.
+- Learn to create a powerful AI model with just a few clicks.
+
+### Optional Advanced: Coding & Deployment
+For students interested in exploring coding and deployment:
+- Use **Python** to process data and deploy a real-world application.
+- Build a web app with **Streamlit** to make the model user-friendly.
+- Enhance functionality with batch processing, CSV downloads, and more.
+
+---
+
+## What You'll Learn
+This project teaches students to:
+1. **No-Code Training**:
+   - Train an image classifier using Google Teachable Machine.
+2. **Optional Coding Section**:
+   - Deploy the trained model in a Python-based web app.
+   - Use Streamlit for a professional, user-friendly interface.
+3. **Practical Applications**:
+   - Analyze single images or batches for energy monitoring tasks.
+   - Expand capabilities to other types of energy infrastructure.
+
+---
+
+## Features
+- **No-Code**: Train a model without programming.
+- **Single & Batch Processing**: Analyze one or many images.
+- **Real-Time Results**: Confidence scores for multiple classifications.
+- **Web Interface**: Interactive and accessible, powered by Streamlit.
+- **Deployment Ready**: Preconfigured for easy deployment.
+
+---
+
+## Future Directions
+- Integrating drone imagery for automated inspections.
+- Expanding to other renewable energy systems (e.g., wind turbines).
+- Mobile app development for field use.
+
+--- 
+
+## Getting Started
+
+1. **Prepare Your Dataset**
+   - To follow along with this tutorial, you can download images from this Kaggle solar panel dataset: https://www.kaggle.com/datasets/pythonafroz/solar-panel-images. Unzip the files.
+OR
+   - Collect ~50+ images per category. You could find a dataset through a website like Kaggle or create your own dataset. 
+   - Ensure diverse conditions (lighting, angles, distances)
+   - Include both positive and negative examples
+   - Label your images consistently
+
+3. **Train Using Google Teachable Machine**
+   - Visit [Teachable Machine](https://teachablemachine.withgoogle.com/)
+   - Create a new Image Project
+   - Upload your images for each class and name each class
+
+<img width="1418" alt="Screen Shot 2025-01-10 at 8 16 43 PM" src="https://github.com/user-attachments/assets/8f467d39-5507-4923-b2c7-75a74ee81a52" />
+
+   - Set training parameters:
+     ```
+     Epochs: 50 (adjust based on performance)
+     Batch Size: 16
+     Learning Rate: 0.001
+     ```
+<img width="1420" alt="Screen Shot 2025-01-10 at 8 31 25 PM" src="https://github.com/user-attachments/assets/5318919e-b5ad-454c-9732-bbdaabd654ab" />
+
+   - Train the model
+   - Test it with other images
+   - Export it to the web by clicking Export, then Upload. Feel free to test the web link and share it with your friends. 
+   - Congratulations, you have created an image classification machine learning model project! 
+<img width="879" alt="Screen Shot 2025-01-15 at 9 42 50 AM" src="https://github.com/user-attachments/assets/c66fa4ac-675c-4528-8ad1-7a9ebfa5d39a" />
+
+
+### 2. (Optional) Code & Deploy
+Export the model as TensorFlow Lite.
+
+<img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
+
+Follow the instructions in the repository below to:
+- Build a Python-based app using Streamlit.
+- Customize features for advanced use cases.
+
+---
+
+## Overview of Project - with Code
 This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and image classification can be applied to real-world energy infrastructure monitoring.
 
 The system is a machine learning-powered web application that detects and classifies faults in solar panels using transfer learning and image classification. It can analyze both single images and batch process multiple images to identify three conditions:
@@ -8,19 +111,15 @@ The system is a machine learning-powered web application that detects and classi
 - Physical damage
 - Electrical damage
 
-https://solarpanelfaultdetection.streamlit.app
+[Live Demo](https://solarpanelfaultdetection.streamlit.app)
+
+This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
 
 This implementation shows students how to:
 - Train a custom image classification model using Google Teachable Machine
 - Deploy a machine learning model in a user-friendly web interface
 - Process both single and batch images for real-world applications
 - Handle multiple classification categories with confidence scoring
-
-This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
-
-<img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
-<img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
-<img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
 
 ## Features
 - Single image analysis with detailed confidence scores
@@ -80,7 +179,7 @@ streamlit run app.py
 Your app will be available at: https://[your-username]-solarpanelfaultdetection-streamlit-app.streamlit.app or whatever you choose to set the URL as.
 
 Note: The repository already includes:
-- `converted_model.tflite` (TensorFlow Lite model)
+- `converted_model.tflite` (TensorFlow Lite model) - or use your own (exported from Teachable Machine)
 - `labels.txt` (Class labels)
 - `requirements.txt` (Dependencies)
 
@@ -121,34 +220,7 @@ The current model achieves:
 
 ## Customizing the Project
 This project can be adapted for various energy infrastructure monitoring applications. Check `otherideas.txt` for a comprehensive list of potential adaptations.
-
-### Creating Your Own Model
-1. **Prepare Your Dataset**
-   - Collect ~50+ images per category. You could find a dataset through a website like Kaggle or create your own dataset.
-   - Ensure diverse conditions (lighting, angles, distances)
-   - Include both positive and negative examples
-   - Label your images consistently
-
-2. **Train Using Google Teachable Machine**
-   - Visit [Teachable Machine](https://teachablemachine.withgoogle.com/)
-   - Create a new Image Project
-   - Upload your images for each class and name each class
-
-<img width="1418" alt="Screen Shot 2025-01-10 at 8 16 43 PM" src="https://github.com/user-attachments/assets/8f467d39-5507-4923-b2c7-75a74ee81a52" />
-
-   - Set training parameters:
-     ```
-     Epochs: 50 (adjust based on performance)
-     Batch Size: 16
-     Learning Rate: 0.001
-     ```
-<img width="1420" alt="Screen Shot 2025-01-10 at 8 31 25 PM" src="https://github.com/user-attachments/assets/5318919e-b5ad-454c-9732-bbdaabd654ab" />
-
-   - Train the model
-   - Test it with other images
-   - Export as TensorFlow Lite
-
-<img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
+You can also modify the Streamlit code to suit your needs, using Claude or otherwise to generate the code or writing it yourself. 
 
 3. **Modify the Code**
    - Update `labels.txt` with your categories:
