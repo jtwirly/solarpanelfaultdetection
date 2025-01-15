@@ -10,11 +10,9 @@ The system is a web application that detects and classifies faults in solar pane
 
 The project is designed to be accessible, beginning with a **no-code approach** using Google Teachable Machine, and optionally extending to **coding and deployment** for students looking to delve deeper into development.
 
-https://teachablemachine.withgoogle.com/models/vh6qY999s/
+https://teachablemachine.withgoogle.com/models/6ip1rASfF/
 
-<img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
-<img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
-<img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
+<img width="1217" alt="Screen Shot 2025-01-15 at 9 55 15 AM" src="https://github.com/user-attachments/assets/95ce3059-a093-4bc4-86bd-92a446e64b6e" />
 
 ---
 
@@ -110,6 +108,10 @@ The system is a machine learning-powered web application that detects and classi
 [Live Demo](https://solarpanelfaultdetection.streamlit.app)
 
 This project was partly inspired by [AIAnytime's Waste Classifier project](https://www.youtube.com/watch?v=s3e2JJxvwPM) and adapted its initial codebase from their [waste classification system](https://github.com/AIAnytime/Waste-Classifier-Sustainability-App).
+
+<img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
+<img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
+<img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
 
 This implementation shows students how to:
 - Train a custom image classification model using Google Teachable Machine
