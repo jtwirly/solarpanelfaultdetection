@@ -10,6 +10,8 @@ The system is a web application that detects and classifies faults in solar pane
 
 The project is designed to be accessible, beginning with a **no-code approach** using Google Teachable Machine, and optionally extending to **coding and deployment** for students looking to delve deeper into development.
 
+https://teachablemachine.withgoogle.com/models/vh6qY999s/
+
 <img width="1426" alt="Screen Shot 2025-01-10 at 9 48 39 PM" src="https://github.com/user-attachments/assets/9b0a3885-ad92-4a50-b66a-51cba7113530" />
 <img width="1421" alt="Screen Shot 2025-01-10 at 10 11 50 PM" src="https://github.com/user-attachments/assets/40a7cadd-eed3-4bd2-b5ba-be299b2cac79" />
 <img width="1434" alt="Screen Shot 2025-01-10 at 9 49 29 PM" src="https://github.com/user-attachments/assets/bd7e334c-c1f6-4ae2-88d1-2bd918689df5" />
@@ -60,7 +62,7 @@ This project teaches students to:
 
 --- 
 
-## Getting Started
+## Getting Started 
 
 1. **Prepare Your Dataset**
    - To follow along with this tutorial, you can download images from this Kaggle solar panel dataset: https://www.kaggle.com/datasets/pythonafroz/solar-panel-images. Unzip the files.
@@ -91,19 +93,13 @@ OR
    - Congratulations, you have created an image classification machine learning model project! 
 <img width="879" alt="Screen Shot 2025-01-15 at 9 42 50 AM" src="https://github.com/user-attachments/assets/c66fa4ac-675c-4528-8ad1-7a9ebfa5d39a" />
 
-
-### 2. (Optional) Code & Deploy
-Export the model as TensorFlow Lite.
-
-<img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
-
 Follow the instructions in the repository below to:
 - Build a Python-based app using Streamlit.
 - Customize features for advanced use cases.
 
 ---
 
-## Overview of Project - with Code
+## Optional Project: Code and Deploy
 This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and image classification can be applied to real-world energy infrastructure monitoring.
 
 The system is a machine learning-powered web application that detects and classifies faults in solar panels using transfer learning and image classification. It can analyze both single images and batch process multiple images to identify three conditions:
@@ -146,6 +142,12 @@ The model was trained using Google Teachable Machine with:
 - Transfer learning using MobileNet architecture
 
 ## Setup and Installation
+
+### Export Model from Teachable Machine
+Export the model as TensorFlow Lite.
+
+<img width="1404" alt="Screen Shot 2025-01-10 at 9 36 39 PM" src="https://github.com/user-attachments/assets/e67545cf-8365-4897-b183-81f5eb34e70b" />
+
 
 ### Local Development
 1. Clone the repository:
