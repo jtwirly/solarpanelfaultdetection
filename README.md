@@ -1,7 +1,7 @@
-# Solar Panel Fault Detection with Machine Learning (Image Classification)
+# Solar Panel Fault Detection with Deep Learning (Image Classification)
 
 ## Overview
-This project is an example from the **AI for Energy Solutions** course at MIT's Independent Activities Period (IAP) that I am teaching. It showcases how **machine learning** and **image classification** can be applied to energy infrastructure monitoring. 
+This project is an example from the **AI for Energy Solutions** course at MIT's Independent Activities Period (IAP) that I taught. It showcases how **deep learning** and **image classification** can be applied to energy infrastructure monitoring. 
 
 The system is a web application that detects and classifies faults in solar panels, capable of analyzing:
 - **Clean panels**
@@ -88,7 +88,7 @@ OR
    - Train the model
    - Test it with other images
    - Export it to the web by clicking Export, then Upload. Feel free to test the web link and share it with your friends. 
-   - Congratulations, you have created an image classification machine learning model project! 
+   - Congratulations, you have created an image classification deep learning model project! 
 <img width="879" alt="Screen Shot 2025-01-15 at 9 42 50 AM" src="https://github.com/user-attachments/assets/c66fa4ac-675c-4528-8ad1-7a9ebfa5d39a" />
 
 Optional: Follow the instructions in the repository below to:
@@ -98,9 +98,9 @@ Optional: Follow the instructions in the repository below to:
 ---
 
 ## Optional Project: Code and Deploy
-This project was created as an example project for the AI for Energy Solutions course that I am teaching during MIT's Independent Activities Period (IAP). It demonstrates how machine learning and image classification can be applied to real-world energy infrastructure monitoring.
+This project was created as an example project for the AI for Energy Solutions course that I taught during MIT's Independent Activities Period (IAP). It demonstrates how deep learning and image classification can be applied to real-world energy infrastructure monitoring.
 
-The system is a machine learning-powered web application that detects and classifies faults in solar panels using transfer learning and image classification. It can analyze both single images and batch process multiple images to identify three conditions:
+The system is a deep learning-powered web application that detects and classifies faults in solar panels using transfer learning and image classification. It can analyze both single images and batch process multiple images to identify three conditions:
 - Clean panels
 - Physical damage
 - Electrical damage
@@ -115,7 +115,7 @@ This project was partly inspired by [AIAnytime's Waste Classifier project](https
 
 This implementation shows students how to:
 - Train a custom image classification model using Google Teachable Machine
-- Deploy a machine learning model in a user-friendly web interface
+- Deploy a deep learning model in a user-friendly web interface
 - Process both single and batch images for real-world applications
 - Handle multiple classification categories with confidence scoring
 
